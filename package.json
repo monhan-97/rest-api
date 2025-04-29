@@ -2,10 +2,14 @@
   "name": "rest-api",
   "version": "1.0.0",
   "description": "rest api",
-  "type": "module",
   "main": "index.ts",
   "license": "ISC",
   "author": "monhan-97",
+  "type": "module",
+  "scripts": {
+    "upgrade": "pnpm update --interactive --latest",
+    "typecheck": "tsc"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/monhan-97/rest-api.git"
@@ -14,8 +18,10 @@
     "url": "https://github.com/monhan-97/rest-api.git/issues"
   },
   "devDependencies": {
+    "@refer-utils/prettier-config": "^2.0.0",
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.3",
+    "prettier": "^3.5.3",
     "typescript": "^5.8.3"
   },
   "dependencies": {

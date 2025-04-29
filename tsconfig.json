@@ -22,6 +22,6 @@
     "noImplicitThis": true,
     "strictNullChecks": true
   },
-  "include": ["api/**/*.ts", "api/**/*.d.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "exclude": ["node_modules"]
 }
