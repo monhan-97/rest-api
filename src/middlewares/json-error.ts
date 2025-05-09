@@ -1,8 +1,8 @@
-import Koa from 'koa';
+import type Koa from 'koa';
 import { isNil } from 'lodash-es';
+import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
-import { getReasonPhrase, StatusCodes } from 'http-status-codes';
-import HttpException from 'src/utils/HttpException';
+import HttpExceptionError from 'src/utils/HttpExceptionError';
 
 export type HttpExceptionTypes = {
   timestamp?: number;
@@ -30,10 +30,10 @@ const jsonError: Koa.Middleware = async (ctx, next) => {
   try {
     await next();
     if (shouldThrow404(ctx.status, ctx.body)) {
-      throw new HttpException(StatusCodes.NOT_FOUND);
+      throw new HttpExceptionError(StatusCodes.NOT_FOUND);
     }
   } catch (err: any) {
-    if (err instanceof HttpException) {
+    if (err instanceof HttpExceptionError) {
       ctx.status = err.status;
       ctx.body = formatError(ctx, {
         timestamp: err.timestamp,

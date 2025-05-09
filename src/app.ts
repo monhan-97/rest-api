@@ -1,6 +1,7 @@
+import Koa from 'koa';
+
 import routes from './routes';
 import middlewares from './middlewares';
-import Koa from 'koa';
 
 const app = new Koa();
 

@@ -1,10 +1,10 @@
-import { getReasonPhrase, StatusCodes } from 'http-status-codes';
+import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
 const messageMap = {
   404: 'No message available',
 };
 
-class HttpException extends Error {
+class HttpExceptionError extends Error {
   /**
    * 自定义错误内容
    */
@@ -28,11 +28,10 @@ class HttpException extends Error {
       getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR);
 
     super(newMessage);
-
-    this.message = newMessage;
     this.error = getReasonPhrase(this.status);
     this.timestamp = Date.now();
+    this.name = 'HttpExceptionError';
   }
 }
 
-export default HttpException;
+export default HttpExceptionError;

@@ -1,6 +1,6 @@
 import Router from '@koa/router';
+import type Koa from 'koa';
 
-import Koa from 'koa';
 import userRouter from './user';
 
 const router = new Router({

@@ -1,4 +1,4 @@
-enum ResponseType {
+export enum ResponseType {
   Success = 'Success',
   Fail = 'Fail',
 }
@@ -9,7 +9,7 @@ const responseWrap = <T>(
   message = 'success',
 ) => {
   return {
-    code: type === ResponseType.Success,
+    code: type === ResponseType.Success ? 0 : -1,
     data: data,
     message: message,
   };
