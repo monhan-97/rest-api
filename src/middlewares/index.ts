@@ -1,8 +1,20 @@
-import Koa from 'koa';
+import type Koa from 'koa';
 import compose from 'koa-compose';
-import jsonError from './json-error';
+import mount from 'koa-mount';
+import serve from 'koa-static';
+import { bodyParser } from '@koa/bodyparser';
 
-const composeMiddleWare = compose([jsonError]);
+import { routePrefix } from '@routes/config';
+
+import jsonError from './json-error';
+import swaggerUI from './swagger-ui';
+
+const composeMiddleWare = compose([
+  jsonError,
+  bodyParser(),
+  mount(routePrefix, serve('dist/static')),
+  swaggerUI,
+]);
 
 const middleWares = (app: Koa) => {
   app.use(composeMiddleWare);

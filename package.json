@@ -4,10 +4,11 @@
   "description": "rest api",
   "license": "ISC",
   "author": "monhan-97",
+  "type": "module",
   "scripts": {
     "upgrade": "pnpm update --interactive --latest",
-    "typecheck": "tsc",
-    "start": "tsx watch src/app.ts"
+    "start:dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
+    "eslint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ."
   },
   "repository": {
     "type": "git",
@@ -17,21 +18,33 @@
     "url": "https://github.com/monhan-97/rest-api.git/issues"
   },
   "devDependencies": {
+    "@refer-utils/eslint-config": "^1.0.3",
     "@refer-utils/prettier-config": "^2.0.0",
     "@types/koa": "^2.15.0",
     "@types/koa-compose": "^3.2.8",
+    "@types/koa-mount": "^4.0.5",
+    "@types/koa-static": "^4.0.4",
     "@types/koa__router": "^12.0.4",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.15.3",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.26.0",
+    "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@koa/bodyparser": "^5.1.1",
     "@koa/router": "^13.1.0",
+    "@tsoa/runtime": "^6.6.0",
     "http-status-codes": "^2.3.0",
     "koa": "^3.0.0",
     "koa-compose": "^4.1.0",
-    "lodash-es": "^4.17.21"
+    "koa-mount": "^4.2.0",
+    "koa-static": "^5.0.0",
+    "koa2-swagger-ui": "^5.11.0",
+    "lodash-es": "^4.17.21",
+    "tsoa": "^6.6.0"
   }
 }

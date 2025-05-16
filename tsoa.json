@@ -1,0 +1,27 @@
+{
+  "entryFile": "src/app.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/**/*Controller.ts"],
+  "spec": {
+    "outputDirectory": "dist/static",
+    "specVersion": 3,
+    "basePath": "/api-docs",
+    "spec": {
+      "info": {
+        "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).",
+        "version": "1.0.0",
+        "title": "Api Documentation",
+        "termsOfService": "http://swagger.io/terms/",
+        "license": {
+          "name": "Apache 2.0",
+          "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "src/routes",
+    "routesFileName": "_routes_tsoa.ts",
+    "middleware": "koa"
+  }
+}

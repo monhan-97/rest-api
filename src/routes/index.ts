@@ -1,13 +1,15 @@
 import Router from '@koa/router';
+import type Koa from 'koa';
 
-import Koa from 'koa';
-import userRouter from './user';
+// @ts-ignore
+import { RegisterRoutes } from './_routes_tsoa';
+import { routePrefix } from './config';
 
 const router = new Router({
-  prefix: '/api',
+  prefix: routePrefix,
 });
 
-router.use('/user', userRouter.routes());
+RegisterRoutes(router);
 
 const routes = (app: Koa) => {
   app.use(router.routes());
