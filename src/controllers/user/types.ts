@@ -1,4 +1,7 @@
-export interface UserLoginRequestBody {
+/**
+ * 用户登录请求体
+ */
+export type UserLoginRequestBody = {
   /**
    * 用户名
    */
@@ -7,4 +10,9 @@ export interface UserLoginRequestBody {
    * 密码
    */
   password: string;
-}
+};
+
+/**
+ * 用户登录响应内容
+ */
+export type UserLoginResponseData = string;
