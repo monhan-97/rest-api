@@ -10,7 +10,6 @@ const swaggerUI: Koa.Middleware = koaSwagger({
   swaggerOptions: {
     url: path.join(routePrefix, 'swagger.json'),
     deepLinking: true,
-    filter: true,
   },
   customCSS: '.download-url-wrapper { display: none !important;}',
 });

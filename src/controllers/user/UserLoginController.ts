@@ -1,17 +1,20 @@
-import { Body, Controller, Post, Route, Tags } from 'tsoa';
+import { Body, Controller, Post, Response, Route, Tags } from 'tsoa';
 
-import { response } from '@utils/response';
+import { userAuthService } from '@/services/userAuthService';
+import { ResponseData } from '@/decorators';
 
-import type { UserLoginRequestBody } from './types';
+import type { UserLoginRequestBody, UserLoginResponseData } from './types';
 
 @Route('user')
-@Tags('用户登陆')
+@Tags('用户登录')
 export class UserLoginController extends Controller {
   /**
-   * @summary 用户登陆接口
+   * @summary 用户登录接口
    */
   @Post('login')
+  @Response<UserLoginResponseData>(200)
+  @ResponseData()
   public async userLogin(@Body() requestBody: UserLoginRequestBody) {
-    return response([]);
+    return userAuthService.userLogin(requestBody);
   }
 }

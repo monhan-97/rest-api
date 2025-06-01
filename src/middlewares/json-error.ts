@@ -9,6 +9,7 @@ export type HttpExceptionTypes = {
   status: number;
   error: string;
   path?: string;
+  message?: string;
 };
 
 const shouldThrow404 = (status: number, body: any) => {
@@ -21,6 +22,7 @@ const formatError = (ctx: Koa.ParameterizedContext, options: HttpExceptionTypes)
     status: options.status,
     error: options.error,
     path: options.path || ctx.path,
+    message: options.message,
   };
 };
 
@@ -39,12 +41,14 @@ const jsonError: Koa.Middleware = async (ctx, next) => {
         timestamp: err.timestamp,
         error: err.error,
         status: ctx.status,
+        message: err.errorMessage,
       });
     } else {
       ctx.status = err.status ?? StatusCodes.INTERNAL_SERVER_ERROR;
       ctx.body = formatError(ctx, {
         error: getReasonPhrase(ctx.status),
         status: ctx.status,
+        message: err.errorMessage || '未知错误',
       });
     }
   }

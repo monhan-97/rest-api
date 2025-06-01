@@ -1,4 +1,4 @@
-import { getReasonPhrase } from 'http-status-codes';
+import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
 class HttpExceptionError extends Error {
   /**
@@ -10,10 +10,16 @@ class HttpExceptionError extends Error {
    */
   public timestamp: number;
 
-  constructor(public status: number) {
-    let newMessage = getReasonPhrase(status);
-    super(newMessage);
-    this.error = newMessage;
+  public errorMessage: string;
+
+  constructor(
+    public status: number = StatusCodes.INTERNAL_SERVER_ERROR,
+    message?: string,
+  ) {
+    let error = getReasonPhrase(status);
+    super(error);
+    this.error = error;
+    this.errorMessage = message || this.error;
     this.timestamp = Date.now();
     this.name = 'HttpExceptionError';
   }
