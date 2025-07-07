@@ -10,7 +10,17 @@ import jsonError from './json-error';
 import swaggerUI from './swagger-ui';
 
 const middleWares = (app: Koa) => {
-  app.use(jsonError).use(bodyParser()).use(cors());
+  app
+    .use(jsonError)
+    .use(
+      bodyParser({
+        extendTypes: {
+          json: ['text/plain', 'application/json'],
+        },
+        encoding: 'utf-8',
+      }),
+    )
+    .use(cors());
   app.use(mount(routePrefix, serve('dist/static'))).use(swaggerUI);
 };
 
