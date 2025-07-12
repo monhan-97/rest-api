@@ -8,8 +8,10 @@ import { routePrefix } from '@routes/config';
 
 import jsonError from './json-error';
 import swaggerUI from './swagger-ui';
+import validateBody from './validateBody';
+import responseFormatter from './responseFormatter';
 
-const middleWares = (app: Koa) => {
+const appMiddleWares = (app: Koa) => {
   app
     .use(jsonError)
     .use(
@@ -24,4 +26,4 @@ const middleWares = (app: Koa) => {
   app.use(mount(routePrefix, serve('dist/static'))).use(swaggerUI);
 };
 
-export default middleWares;
+export { jsonError, swaggerUI, validateBody, responseFormatter, appMiddleWares };

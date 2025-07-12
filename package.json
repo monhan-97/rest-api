@@ -39,6 +39,8 @@
     "@koa/cors": "^5.0.0",
     "@koa/router": "^13.1.0",
     "@tsoa/runtime": "^6.6.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
     "http-status-codes": "^2.3.0",
     "koa": "^3.0.0",
     "koa-mount": "^4.2.0",

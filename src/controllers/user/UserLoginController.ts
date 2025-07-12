@@ -1,8 +1,8 @@
-import { Body, Consumes, Controller, Post, Response, Route, Tags } from 'tsoa';
+import { Body, Consumes, Controller, Middlewares, Post, Route, Tags } from 'tsoa';
 
-import { ResponseData } from '@/decorators';
+import { responseFormatter, validateBody } from '@/middlewares';
 
-import type { UserLoginRequestBody, UserLoginResponseData } from './types';
+import { UserLoginDTO } from './dtos/UserLoginDTO';
 import { usersService } from './UsersService';
 
 @Route('user')
@@ -12,10 +12,9 @@ export class UserLoginController extends Controller {
    * @summary 用户登录接口
    */
   @Post('login')
-  @Response<UserLoginResponseData>(200)
-  @ResponseData()
   @Consumes('text/plain')
-  public async userLogin(@Body() requestBody: UserLoginRequestBody) {
+  @Middlewares(validateBody(UserLoginDTO), responseFormatter)
+  public async userLogin(@Body() requestBody: UserLoginDTO) {
     return usersService.userLogin(requestBody);
   }
 }
