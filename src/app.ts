@@ -1,13 +1,13 @@
 import Koa from 'koa';
 
 import routes from './routes';
-import middlewares from './middlewares';
+import { appMiddleWares } from './middlewares';
 
 const app = new Koa();
 
 const PORT = 3000;
 
-middlewares(app);
+appMiddleWares(app);
 
 routes(app);
 

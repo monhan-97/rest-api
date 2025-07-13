@@ -24,10 +24,6 @@
     "emitDecoratorMetadata": true,
     "paths": {
       "@/*": ["src/*"],
-      "@utils/*": ["src/utils/*"],
-      "@services/*": ["src/services/*"],
-      "@controllers/*": ["src/controllers/*"],
-      "@routes/*": ["src/routes/*"],
       "tsoa": ["node_modules/tsoa/dist"]
     }
   },

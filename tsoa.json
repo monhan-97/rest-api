@@ -26,10 +26,7 @@
   },
   "compilerOptions": {
     "paths": {
-      "@decorators": ["src/decorators/*"],
-      "@utils/*": ["src/utils/*"],
-      "@controllers/*": ["src/controllers/*"],
-      "@routes/*": ["src/routes/*"],
+      "@/*": ["src/*"],
       "tsoa": ["node_modules/tsoa/dist"]
     }
   }

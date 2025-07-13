@@ -1,55 +1,36 @@
 import type Koa from 'koa';
-import { isNil } from 'lodash-es';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
-import HttpExceptionError from '@utils/HttpExceptionError';
+import { ApiExceptionError, HttpExceptionError, ResponseType, createResponse } from '@/utils';
 
-export type HttpExceptionTypes = {
-  timestamp?: number;
-  status: number;
-  error: string;
-  path?: string;
-  message?: string;
-};
-
-const shouldThrow404 = (status: number, body: any) => {
-  return isNil(status) || (status === StatusCodes.NOT_FOUND && isNil(body));
-};
-
-const formatError = (ctx: Koa.ParameterizedContext, options: HttpExceptionTypes) => {
+const createJSONError = (ctx: Koa.ParameterizedContext, message?: string) => {
   return {
-    timestamp: options.timestamp || Date.now(),
-    status: options.status,
-    error: options.error,
-    path: options.path || ctx.path,
-    message: options.message,
+    timestamp: Date.now(),
+    status: ctx.status,
+    error: getReasonPhrase(ctx.status),
+    path: ctx.path,
+    message: message,
   };
 };
 
 const jsonError: Koa.Middleware = async (ctx, next) => {
   try {
     await next();
-    if (shouldThrow404(ctx.status, ctx.body)) {
-      throw new HttpExceptionError(StatusCodes.NOT_FOUND);
-    } else if (ctx.status === StatusCodes.METHOD_NOT_ALLOWED) {
-      throw new HttpExceptionError(StatusCodes.METHOD_NOT_ALLOWED);
+    let status = ctx.status;
+    if (status >= 400 && status < 600) {
+      ctx.status = status;
+      ctx.body = createJSONError(ctx);
     }
   } catch (err: any) {
     if (err instanceof HttpExceptionError) {
       ctx.status = err.status;
-      ctx.body = formatError(ctx, {
-        timestamp: err.timestamp,
-        error: err.error,
-        status: ctx.status,
-        message: err.errorMessage,
-      });
+      ctx.body = createJSONError(ctx, err.message);
+    } else if (err instanceof ApiExceptionError) {
+      ctx.body = createResponse(err.message, ResponseType.Fail);
+      ctx.status = err.status;
     } else {
       ctx.status = err.status ?? StatusCodes.INTERNAL_SERVER_ERROR;
-      ctx.body = formatError(ctx, {
-        error: getReasonPhrase(ctx.status),
-        status: ctx.status,
-        message: err.errorMessage || '未知错误',
-      });
+      ctx.body = createJSONError(ctx, err.message ?? '未知错误');
     }
   }
 };
