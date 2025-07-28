@@ -1,15 +1,20 @@
 import type Koa from 'koa';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
-import { ApiExceptionError, HttpExceptionError, ResponseType, createResponse } from '@/utils';
+import {
+  ApiExceptionError,
+  HttpExceptionError,
+  ResponseType,
+  createResponse,
+  logger,
+} from '@/utils';
 
-const createJSONError = (ctx: Koa.ParameterizedContext, message?: string) => {
+const createJSONError = (ctx: Koa.ParameterizedContext) => {
   return {
     timestamp: Date.now(),
     status: ctx.status,
     error: getReasonPhrase(ctx.status),
     path: ctx.path,
-    message: message,
   };
 };
 
@@ -23,14 +28,16 @@ const jsonError: Koa.Middleware = async (ctx, next) => {
     }
   } catch (err: any) {
     if (err instanceof HttpExceptionError) {
+      logger.error(err.message);
       ctx.status = err.status;
-      ctx.body = createJSONError(ctx, err.message);
+      ctx.body = createJSONError(ctx);
     } else if (err instanceof ApiExceptionError) {
-      ctx.body = createResponse(err.message, ResponseType.Fail);
       ctx.status = err.status;
+      ctx.body = createResponse(err.message, ResponseType.Fail);
     } else {
+      err.message && logger.error(err.message);
       ctx.status = err.status ?? StatusCodes.INTERNAL_SERVER_ERROR;
-      ctx.body = createJSONError(ctx, err.message ?? '未知错误');
+      ctx.body = createJSONError(ctx);
     }
   }
 };

@@ -1,0 +1,17 @@
+/// 用户表 
+model User {
+    /// 自增用户ID（数据库自增）id
+    id        Int      @id @default(autoincrement())
+    /// 登录账号
+    username  String   @unique
+    /// 登录密码
+    password  String
+    /// 创建时间
+    createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+    // 创建人id
+    createdId Int?     @map("create_id")
+    /// 更新时间
+    updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+    /// 更新人id
+    updatedId Int?     @map("update_id")
+}
