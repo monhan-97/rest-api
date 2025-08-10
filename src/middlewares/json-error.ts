@@ -9,11 +9,11 @@ import {
   logger,
 } from '@/utils';
 
-const createJSONError = (ctx: Koa.ParameterizedContext) => {
+const createJSONError = (ctx: Koa.ParameterizedContext, message?: string) => {
   return {
     timestamp: Date.now(),
     status: ctx.status,
-    error: getReasonPhrase(ctx.status),
+    error: message ?? getReasonPhrase(ctx.status),
     path: ctx.path,
   };
 };
@@ -30,10 +30,10 @@ const jsonError: Koa.Middleware = async (ctx, next) => {
     if (err instanceof HttpExceptionError) {
       logger.error(err.message);
       ctx.status = err.status;
-      ctx.body = createJSONError(ctx);
+      ctx.body = createJSONError(ctx, err.message);
     } else if (err instanceof ApiExceptionError) {
       ctx.status = err.status;
-      ctx.body = createResponse(err.message, ResponseType.Fail);
+      ctx.body = createResponse(null, ResponseType.Fail, err.message);
     } else {
       err.message && logger.error(err.message);
       ctx.status = err.status ?? StatusCodes.INTERNAL_SERVER_ERROR;

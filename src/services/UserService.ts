@@ -1,7 +1,8 @@
 import { isNil } from 'lodash-es';
 
-import type { UserLoginReqDTO } from '@/dtos/UserLoginDTO';
+import type { UserLoginReqDTO, UserLoginResDTO } from '@/dtos/UserLoginDTO';
 import { ApiExceptionError, prisma } from '@/utils';
+import { getJwtToken } from '@/utils/jwt';
 
 class UserService {
   /**
@@ -9,7 +10,7 @@ class UserService {
    * @param requestBody
    * @returns
    */
-  public async userLogin(requestBody: UserLoginReqDTO) {
+  public async userLogin(requestBody: UserLoginReqDTO): Promise<UserLoginResDTO> {
     const { password, username } = requestBody;
 
     const userResult = await prisma.user.findUnique({
@@ -24,7 +25,9 @@ class UserService {
       throw new ApiExceptionError('用户名或密码错误');
     }
 
-    return userResult.id;
+    return {
+      token: getJwtToken(userResult.id),
+    };
   }
 }
 

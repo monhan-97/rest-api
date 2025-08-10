@@ -20,7 +20,6 @@ const validateBody = <T extends object>(
         target: false,
       },
       forbidNonWhitelisted: true,
-      whitelist: true,
       stopAtFirstError: true,
       ...validatorOptions,
     });
@@ -29,8 +28,8 @@ const validateBody = <T extends object>(
       for (const error of errors) {
         if (error.constraints) {
           throw new HttpExceptionError(
-            `${error.property}:${Object.values(error.constraints).join(', ')}`,
             StatusCodes.UNPROCESSABLE_ENTITY,
+            Object.values(error.constraints).join(', '),
           );
         }
 
@@ -38,8 +37,8 @@ const validateBody = <T extends object>(
           for (const errorNested of error.children) {
             if (errorNested.constraints) {
               throw new HttpExceptionError(
-                `${errorNested.property}:${Object.values(errorNested.constraints).join(', ')}`,
                 StatusCodes.UNPROCESSABLE_ENTITY,
+                Object.values(errorNested.constraints).join(', '),
               );
             }
           }

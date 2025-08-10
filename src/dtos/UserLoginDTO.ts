@@ -13,3 +13,10 @@ export class UserLoginReqDTO {
   @IsNotEmpty({ message: '密码不能为空' })
   password!: string;
 }
+
+export type UserLoginResDTO = {
+  /**
+   * 用户登陆令牌
+   */
+  token: string;
+};

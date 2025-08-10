@@ -17,12 +17,20 @@
           "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
       }
+    },
+    "securityDefinitions": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "使用 JWT 进行认证，格式: Bearer <token>"
+      }
     }
   },
   "routes": {
     "routesDir": "src/routes",
     "routesFileName": "_routes_tsoa.ts",
-    "middleware": "koa"
+    "middleware": "koa",
+    "authenticationModule": "src/middlewares/authentication.ts"
   },
   "compilerOptions": {
     "paths": {
